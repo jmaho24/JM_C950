@@ -1,4 +1,7 @@
 from package import Package
+import csv
+
+
 
 package_1 = Package("23","22 Freedom lane","Salt Lake City", "Utah","00001","Tuesday 5PM","23KG","ready for delivery")
 package_2 = Package("23","22 Freedom lane","Salt Lake City", "Utah","00001","Tuesday 5PM","23KG","ready for delivery")
