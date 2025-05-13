@@ -1,4 +1,4 @@
-# Creating a class for Package objects.
+# Class for Package objects.
 
 class Package:
     def __init__(self, pkg_id, address, city, state, pkg_zip, deadline, weight,status):
