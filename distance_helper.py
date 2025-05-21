@@ -3,7 +3,7 @@ import csv
 def load_distance_data (filepath):
 
     distance_matrix = []
-    address_index = []
+    address_index = {}
 
     # Step 1: Read CSV (using csv.reader
     with open(filepath, mode='r') as file:
