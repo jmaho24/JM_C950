@@ -1,25 +1,37 @@
 import csv
 
+def load_distance_data (filepath):
 
-def load_package_data (filepath,package_map):
+    distance_matrix = []
+    address_index = []
 
+    # Step 1: Read CSV (using csv.reader
     with open(filepath, mode='r') as file:
 
         reader = csv.reader(file)
+        header = next(reader)[1:]  # Skip top-left blank, grab address headers
 
-        next(reader)
+        for i,row in enumerate(reader):
+            address = row[0].strip() # First column = address
+            address_index[address] = i # iMap address to row index
 
-        for row in reader:
+            distances = [float(x) if x else 0.0 for x in row[1:]]
+            distance_matrix.append(distances)
 
-            pkg_id = int(row[0])
-            address = row[1]
-            city = row[2]
-            state = row[3]
-            zip_code = row[4]
-            deadline = row[5]
-            weight = row[6]
-            notes = row[7] if len(row) > 7 else ""
-            status = "At Hub"
 
-            package = Package(pkg_id, address, city, state, zip_code, deadline, weight, status)
-            package_map.insert(pkg_id, package)
+    return distance_matrix, address_index
+
+
+def get_distance(from_address, to_address,matrix,address_index):
+
+    from_index = address_index[from_address]
+    to_index = address_index[to_address]
+
+    distance = matrix[from_index][to_index]
+
+    #if cell is empty or 0.0, try reverse
+
+    if distance == 0.0 and from_index != to_index:
+        distance = matrix[to_index][from_index]
+
+    return float(distance)

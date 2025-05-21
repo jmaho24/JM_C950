@@ -1,5 +1,5 @@
 import csv
-import hashmap
+
 
 from package import Package
 
@@ -24,6 +24,7 @@ def load_package_data (filepath,package_map):
             status = "At Hub"
 
             package = Package(pkg_id, address, city, state, zip_code, deadline, weight, status)
+
             package_map.insert(pkg_id, package)
 
 
