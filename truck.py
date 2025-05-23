@@ -3,8 +3,9 @@
 from datetime import datetime, timedelta
 
 
+# Class for Truck objects.
 class Truck:
-    # Class for Truck objects.
+
     def __init__(self, truck_id, start_time):
 
         self.truck_id = truck_id            #required at creation
@@ -15,6 +16,7 @@ class Truck:
         self.mileage = 0.0                  #each truck starts at 0 miles
         self.speed = 18                     #mph value provided by task
         self.max_capacity = 16              #fixed limit of packages per truck
+
 
     # Prints truck info.
     def __str__(self):
@@ -28,6 +30,7 @@ class Truck:
         else:
             print("Truck is at max capacity.")
 
+
     # Method to deliver packages.
     def deliver_package(self, package,distance):
 
@@ -37,6 +40,7 @@ class Truck:
         self.mileage += distance
         # Update package list.
         self.packages.remove(package)
+
 
       # Method to update truck time.
     def update_time(self, distance):
