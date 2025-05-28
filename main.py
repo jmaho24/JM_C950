@@ -23,7 +23,8 @@ load_package_data("data/package_data.csv", package_map)
 # Load the matrix and index
 distance_matrix, address_index = load_distance_data("data/distance_matrix.csv")
 
-start_time = datetime.strptime("08:00", "%H:%M")
-truck = Truck(1, start_time)
-truck.update_time(9.0)
-print(truck.time.strftime("%I:%M %p"))  # Should print "08:30 AM"
+start_time_truck1 = datetime.strptime("08:00", "%H:%M")
+start_time_truck2 = datetime.strptime("09:05", "%H:%M")
+
+truck1 = Truck(1, start_time_truck1)
+truck2 = Truck(1, start_time_truck2)
