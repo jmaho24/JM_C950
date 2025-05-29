@@ -1,37 +1,28 @@
 import csv
 
-def load_distance_data (filepath):
+# Global structures
+distance_matrix = []
+address_index = {}
 
-    distance_matrix = []
-    address_index = {}
+# Automatically load when this file is imported
+with open("data/distance_matrix.csv", mode='r') as file:
+    reader = csv.reader(file)
+    header = next(reader)[1:]  # Skip the first cell, grab address headers
 
-    # Step 1: Read CSV (using csv.reader
-    with open(filepath, mode='r') as file:
+    for i, row in enumerate(reader):
+        address = row[0].strip()
+        address_index[address] = i
 
-        reader = csv.reader(file)
-        header = next(reader)[1:]  # Skip top-left blank, grab address headers
+        distances = [float(x) if x else 0.0 for x in row[1:]]
+        distance_matrix.append(distances)
 
-        for i,row in enumerate(reader):
-            address = row[0].strip() # First column = address
-            address_index[address] = i # iMap address to row index
-
-            distances = [float(x) if x else 0.0 for x in row[1:]]
-            distance_matrix.append(distances)
-
-
-    return distance_matrix, address_index
-
-
-def get_distance(from_address, to_address,matrix,address_index):
-
+# Simple distance lookup function
+def get_distance(from_address, to_address):
     from_index = address_index[from_address]
     to_index = address_index[to_address]
 
-    distance = matrix[from_index][to_index]
-
-    #if cell is empty or 0.0, try reverse
-
+    distance = distance_matrix[from_index][to_index]
     if distance == 0.0 and from_index != to_index:
-        distance = matrix[to_index][from_index]
+        distance = distance_matrix[to_index][from_index]
 
     return float(distance)

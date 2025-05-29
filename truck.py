@@ -2,6 +2,8 @@
 
 from datetime import datetime, timedelta
 
+from routing import HUB_ADDRESS
+
 
 # Class for Truck objects.
 class Truck:
@@ -12,7 +14,7 @@ class Truck:
         self.time = start_time              #required at creation
 
         self.packages = []                  #default empty list
-        self.location ="Hub"                #default location
+        self.location =HUB_ADDRESS                #default location
         self.mileage = 0.0                  #each truck starts at 0 miles
         self.speed = 18                     #mph value provided by task
         self.max_capacity = 16              #fixed limit of packages per truck
