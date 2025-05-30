@@ -25,10 +25,13 @@ class Truck:
         return f"Truck: {self.truck_id} | Packages on board: {len(self.packages)}  Mileage: {self.mileage} Time: {self.time.strftime('%I:%M %p')}"
 
 
-    # Method to add packages.
+    # Method to add packages to a truck and set package status to.
     def load_package(self, package):
         if len(self.packages) < self.max_capacity:
             self.packages.append(package)
+            # Updates package status.
+            package.status = "EN ROUTE"
+        # Prints error message if a package is added to a truck at max capacity.
         else:
             print("Truck is at max capacity.")
 
@@ -36,13 +39,17 @@ class Truck:
     # Method to deliver packages.
     def deliver_package(self, package,distance):
 
-        # Update location.
+        # Updates truck location.
         self.location = package.address
-        # Update mileage.
-        self.mileage += distance
-        # Update package list.
+        # Updates truck mileage.
+        #  self.mileage += distance
+        # Updates package delivery time.
+        package.delivery_time = self.time.strftime('%I:%M %p')
+        # Updates package status as delivered with delivery time.
+        package.status = f"Delivered at {self.time.strftime('%I:%M %p')}"
+        # Updates package list.
         self.packages.remove(package)
-
+        print(f"[DEBUG] Truck {self.truck_id}: +{distance} miles for Package {package.pkg_id} at {package.address}")
 
       # Method to update truck time.
     def update_time(self, distance):

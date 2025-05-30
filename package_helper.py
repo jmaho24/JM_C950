@@ -21,11 +21,13 @@ def load_package_data (filepath,package_map):
             deadline = row[5]
             weight = row[6]
             notes = row[7] if len(row) > 7 else ""
-            status = "At Hub"
+            status = "AT HUB"
+            delivery_time = None
 
-            package = Package(pkg_id, address, city, state, zip_code, deadline, weight, status)
+            package = Package(pkg_id, address, city, state, zip_code, deadline, weight,notes, status, delivery_time)
 
             package_map.insert(pkg_id, package)
+
 
 
 
