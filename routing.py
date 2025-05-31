@@ -62,7 +62,7 @@ def simulate_route(truck, start_time):
         truck.update_time(distance)
         total_distance += distance
 
-        print(f"[DEBUG] Truck {truck.truck_id}: +{distance} miles to {stop}")
+      #  print(f"[DEBUG] Truck {truck.truck_id}: +{distance} miles to {stop}")
 
         for pkg in grouped[stop]:
             pkg.delivery_time = truck.time

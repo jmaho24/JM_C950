@@ -1,7 +1,9 @@
 import csv
-
+import datetime
+import re
 
 from package import Package
+from datetime import datetime
 
 def load_package_data (filepath,package_map):
 
@@ -21,11 +23,21 @@ def load_package_data (filepath,package_map):
             deadline = row[5]
             weight = row[6]
             notes = row[7] if len(row) > 7 else ""
+            truck = None
             status = "AT HUB"
             delivery_time = None
+            available_time = datetime.strptime("08:00 AM", "%I:%M %p")
 
-            package = Package(pkg_id, address, city, state, zip_code, deadline, weight,notes, status, delivery_time)
+            # Look for a delay *and* a time
+            if "delayed" in notes.lower():
+                match = re.search(r'until (\d{1,2}:\d{2} ?[ap]m)', notes.lower())
+                if match:
+                    time_str = match.group(1)
+                    available_time = datetime.strptime(time_str, "%I:%M %p")
+                    status = "Delayed – Not Yet Available"
 
+            package = Package(pkg_id, address, city, state, zip_code, deadline, weight, truck, notes, status,available_time, delivery_time)
+            print(package)
             package_map.insert(pkg_id, package)
 
 

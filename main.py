@@ -17,6 +17,8 @@ from routing import simulate_route
 from truck import Truck
 from package import Package
 
+current_time = datetime.strptime("08:00 AM", "%I:%M %p")
+
 # Instantiate package hashmap with data from CSV.
 package_map = ChainingHashTable()
 
@@ -82,15 +84,20 @@ for p in loaded_packages1:
 
 
 # TRUCK 2: LOAD TRUCK
-for pid in truck2_ids:
 
+for pid in truck2_ids:
     package = package_map.search(pid)
+
     if not package:
         print(f"⚠️ Package {pid} not found in hash map!")
     else:
+        # Update status if it's a delayed package and it's now 9:05
+        if package.available_time <= start_time2 and package.status == "Delayed – Not Yet Available":
+            package.status = "At Hub"
         truck2.load_package(package)
         loaded_packages2.append(package)
 
+        print(package.__str__())
 
 # TRUCK 2: SIMULATE
 return_time = simulate_route(truck2, start_time2)
@@ -143,3 +150,10 @@ for p in loaded_packages3:
 float1 = truck1.mileage + truck2.mileage + truck3.mileage
 
 print(f"⚠️ TOTAL MILEAGE = {float1} ")
+
+
+print("\n--- FINAL PACKAGE STATUSES ---")
+for pkg_id in range(1, 41):
+    package = package_map.search(pkg_id)
+    if package:
+        print(package)
