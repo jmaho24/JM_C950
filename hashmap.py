@@ -54,3 +54,9 @@ class ChainingHashTable:
         for i, bucket in enumerate(self.table):
             output.append(f"Bucket {i}: {bucket}")
         return "\n".join(output)
+
+    def all_items(self):
+        for bucket in self.table:
+            if bucket:
+                for item in bucket:
+                    yield item[0], item[1]

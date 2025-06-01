@@ -27,9 +27,9 @@ load_package_data("data/package_data.csv", package_map)
 
 
 # Step 1: Define Truck 3 start time (after 10:20 AM and Truck 1 return)
-start_time1 = datetime.strptime("08:00", "%H:%M")
-start_time2 = datetime.strptime("09:05", "%H:%M")
-start_time3 = datetime.strptime("10:20", "%H:%M")
+start_time1 = datetime.strptime("08:00", "%H:%M").replace(year=2024, month=1, day=1)
+start_time2 = datetime.strptime("09:05", "%H:%M").replace(year=2024, month=1, day=1)
+start_time3 = datetime.strptime("10:20", "%H:%M").replace(year=2024, month=1, day=1)
 
 
 # Step 2: Initialize Truck 3
@@ -38,19 +38,12 @@ truck2 = Truck(2, start_time2)
 truck3 = Truck(3, start_time3)
 
 # Step 3: Load Truck 3 packages\
-"""
-truck1_ids = [1, 13, 14, 15, 16, 20, 29, 30, 31, 34, 37, 40]
-truck2_ids = [2, 3, 6, 10, 11, 12, 17, 18, 19, 21, 22, 25, 28, 32, 36, 38]
-truck3_ids = [5, 7, 8, 9, 23, 24, 26, 27, 33, 35, 39]
+
+
 
 truck1_ids = [1, 13, 14, 15, 16, 20, 29, 30, 31, 34, 37, 40]
-truck2_ids = [2, 3, 10, 11, 12, 17, 18, 19, 21, 22, 28, 32, 36, 38]
-truck3_ids = [4, 5, 7, 8, 9, 23, 24, 26, 27, 33, 35, 39]
-"""
-
-truck1_ids = [1, 13, 14, 15, 16, 20, 29, 30, 31, 34, 37, 40]
-truck2_ids = [2, 3, 5, 7, 10, 11, 12, 17, 18, 19, 21, 28, 32, 36, 38]
-truck3_ids = [4, 8, 9, 22, 23, 24, 26, 27, 33, 35, 39]
+truck2_ids = [3, 5, 6, 7, 10, 11, 12, 17, 18,25, 19, 21, 28, 32, 36, 38]
+truck3_ids = [2,4, 8, 9, 22, 23, 24, 26, 27, 33, 35, 39]
 
 loaded_packages1 = []
 loaded_packages2 = []
@@ -75,9 +68,7 @@ return_time = simulate_route(truck1, start_time1)
 print(f"\n--- TRUCK 1 ROUTE SUMMARY ---")
 print(f"Return time: {return_time.strftime('%I:%M %p')}")
 print(f"Total mileage: {truck1.mileage:.2f} miles")
-print("\nDelivered Packages:")
-for p in loaded_packages1:
-    print(f"Package {p.pkg_id} delivered at {p.delivery_time}")
+
 
 
 
@@ -97,7 +88,7 @@ for pid in truck2_ids:
         truck2.load_package(package)
         loaded_packages2.append(package)
 
-        print(package.__str__())
+
 
 # TRUCK 2: SIMULATE
 return_time = simulate_route(truck2, start_time2)
@@ -106,9 +97,6 @@ return_time = simulate_route(truck2, start_time2)
 print(f"\n--- TRUCK 2 ROUTE SUMMARY ---")
 print(f"Return time: {return_time.strftime('%I:%M %p')}")
 print(f"Total mileage: {truck2.mileage:.2f} miles")
-print("\nDelivered Packages:")
-for p in loaded_packages2:
-    print(f"Package {p.pkg_id} delivered at {p.delivery_time}")
 
 
 
@@ -120,7 +108,7 @@ if package_9:
 else:
     print("⚠️ Package 9 still not found in map!")
 
-print(f"Package 9 updated address: {package_9.address}")
+
 
 
 
@@ -142,18 +130,79 @@ return_time = simulate_route(truck3, start_time3)
 print(f"\n--- TRUCK 3 ROUTE SUMMARY ---")
 print(f"Return time: {return_time.strftime('%I:%M %p')}")
 print(f"Total mileage: {truck3.mileage:.2f} miles")
-print("\nDelivered Packages:")
-for p in loaded_packages3:
-    print(f"Package {p.pkg_id} delivered at {p.delivery_time}")
 
 
-float1 = truck1.mileage + truck2.mileage + truck3.mileage
 
-print(f"⚠️ TOTAL MILEAGE = {float1} ")
+total_mileage = truck1.mileage + truck2.mileage + truck3.mileage
+
+print(f"⚠️ TOTAL MILEAGE = {total_mileage} ")
 
 
-print("\n--- FINAL PACKAGE STATUSES ---")
-for pkg_id in range(1, 41):
-    package = package_map.search(pkg_id)
-    if package:
-        print(package)
+def cli_loop():
+    while True:
+        print("\n--- WGUPS Delivery CLI ---")
+        print("1. Look up a single package at a specific time")
+        print("2. Look up all packages at a specific time")
+        print("3. View total mileage driven by all trucks")
+        print("4. Exit")
+
+        choice = input("Enter choice (1–4): ")
+
+        if choice == "1":
+            try:
+                pkg_id = int(input("Enter Package ID (1–40): "))
+                time_str = input("Enter time to query (e.g., 08:35 AM): ")
+                query_time = datetime.strptime(time_str, "%I:%M %p").replace(year=2024, month=1, day=1)
+
+                package = package_map.search(pkg_id)
+                if not package:
+                    print("Package not found.")
+                    continue
+
+                print(f"\n===== PACKAGE {package.pkg_id} AT {query_time.strftime('%I:%M %p')} =====")
+                print(f"Address: {package.get_address_at(query_time)}")
+                print(f"City: {package.city}")
+                print(f"State: {package.state}")
+                print(f"ZIP: {package.pkg_zip}")
+                print(f"Deadline: {package.deadline}")
+                print(f"Weight: {package.weight} KG")
+                if package.departure_time and query_time >= package.departure_time:
+                    print(f"Truck: {package.truck}")
+                else:
+                    print("Truck: N/A")
+                print(f"Status: {package.get_status_at(query_time)}")
+
+            except ValueError:
+                print("Invalid input. Please enter a number and time in HH:MM AM/PM format.")
+
+        elif choice == "2":
+            try:
+                time_str = input("Enter time to query all packages (e.g., 09:30 AM): ")
+                query_time = datetime.strptime(time_str, "%I:%M %p").replace(year=2024, month=1, day=1)
+
+                print(f"\n===== ALL PACKAGE STATUSES AT {time_str.upper()} =====")
+                for pkg_id in range(1, 41):
+                    package = package_map.search(pkg_id)
+                    status = package.get_status_at(query_time)
+                    print(f"Package {pkg_id}: {status}")
+
+            except ValueError:
+                print("Invalid time format. Use HH:MM AM/PM.")
+
+        elif choice == "3":
+            total_mileage = truck1.mileage + truck2.mileage + truck3.mileage
+            print("\n===== TRUCK MILEAGE REPORT =====")
+            print(f"Truck 1 mileage: {truck1.mileage:.2f} miles")
+            print(f"Truck 2 mileage: {truck2.mileage:.2f} miles")
+            print(f"Truck 3 mileage: {truck3.mileage:.2f} miles")
+            print("-" * 30)
+            print(f"Total mileage: {total_mileage:.2f} miles")
+
+        elif choice == "4":
+            print("Goodbye.")
+            break
+
+        else:
+            print("Invalid selection. Please choose 1, 2, 3, or 4.")
+
+cli_loop()

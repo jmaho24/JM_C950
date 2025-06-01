@@ -29,9 +29,13 @@ class Truck:
     def load_package(self, package):
         if len(self.packages) < self.max_capacity:
             self.packages.append(package)
-            # Updates package status.
+
+            # Updates package status and departure time.
             package.status = "EN ROUTE"
             package.truck = self.truck_id
+            package.departure_time = self.time
+
+
         # Prints error message if a package is added to a truck at max capacity.
         else:
             print("Truck is at max capacity.")
