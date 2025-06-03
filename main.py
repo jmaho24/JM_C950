@@ -147,6 +147,7 @@ def cli_loop():
         print("4. Exit")
 
         choice = input("Enter choice (1–4): ")
+        print("\n" * 3)
 
         if choice == "1":
             try:
@@ -171,7 +172,7 @@ def cli_loop():
                 else:
                     print("Truck: N/A")
                 print(f"Status: {package.get_status_at(query_time)}")
-
+                print("\n" * 3)
             except ValueError:
                 print("Invalid input. Please enter a number and time in HH:MM AM/PM format.")
 
@@ -197,6 +198,8 @@ def cli_loop():
             print(f"Truck 3 mileage: {truck3.mileage:.2f} miles")
             print("-" * 30)
             print(f"Total mileage: {total_mileage:.2f} miles")
+
+
 
         elif choice == "4":
             print("Goodbye.")

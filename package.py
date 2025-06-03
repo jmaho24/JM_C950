@@ -46,10 +46,16 @@ class Package:
             f"  Notes: {self.notes if self.notes else 'None'}\n")
 
     def get_status_at(self, query_time):
+        # Handle delayed packages
+        if "delayed" in self.notes.lower():
+            if query_time < self.available_time:
+                return f"Delayed – Not Yet Available (Available at {self.available_time.strftime('%I:%M %p')})"
 
+        # If query is before package becomes available, but it's not delayed
         if query_time < self.available_time:
-            return f"Delayed – Not Yet Available (Available at {self.available_time.strftime('%H:%M')})"
-        elif query_time < self.departure_time:
+            return "At Hub"
+
+        if query_time < self.departure_time:
             return "At Hub"
         elif query_time < self.delivery_time:
             return "En Route"
