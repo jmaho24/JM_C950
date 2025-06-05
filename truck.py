@@ -52,9 +52,10 @@ class Truck:
         package.delivery_time = self.time
         # Updates package status as delivered with delivery time.
         package.status = f"Delivered at {self.time.strftime('%I:%M %p')}"
+        print(f"[Truck {self.truck_id}]: Package {package.pkg_id} to {package.address}   {package.status}")
         # Updates package list.
         self.packages.remove(package)
-       # print(f"[DEBUG] Truck {self.truck_id}: +{distance} miles for Package {package.pkg_id} at {package.address}")
+
 
       # Method to update truck time.
     def update_time(self, distance):

@@ -41,8 +41,8 @@ truck3 = Truck(3, start_time3)
 
 
 
-truck1_ids = [1, 13, 14, 15, 16, 20, 29, 30, 31, 34, 37, 40]
-truck2_ids = [3, 5, 6, 7, 10, 11, 12, 17, 18,25, 19, 21, 28, 32, 36, 38]
+truck1_ids = [1, 13, 14,12, 15, 16,19, 20, 29, 30, 31, 34, 37, 40]
+truck2_ids = [3, 5, 6, 7, 10, 11, 17, 18,25, 21, 28, 32, 36, 38]
 truck3_ids = [2,4, 8, 9, 22, 23, 24, 26, 27, 33, 35, 39]
 
 loaded_packages1 = []
@@ -60,15 +60,15 @@ for pid in truck1_ids:
         truck1.load_package(package)
         loaded_packages1.append(package)
 
-
+print(f"\n[--- TRUCK 1 ROUTE SUMMARY ---")
 # TRUCK 1: SIMULATE
 return_time = simulate_route(truck1, start_time1)
 
 # TRUCK 1: RESULTS
-print(f"\n--- TRUCK 1 ROUTE SUMMARY ---")
 print(f"Return time: {return_time.strftime('%I:%M %p')}")
 print(f"Total mileage: {truck1.mileage:.2f} miles")
-
+print(f"--- TRUCK 1 ROUTE SUMMARY ---]")
+print("\n" * 3)
 
 
 
@@ -89,15 +89,15 @@ for pid in truck2_ids:
         loaded_packages2.append(package)
 
 
-
+print(f"[--- TRUCK 2 ROUTE SUMMARY ---")
 # TRUCK 2: SIMULATE
 return_time = simulate_route(truck2, start_time2)
 
 # TRUCK 2: RESULTS
-print(f"\n--- TRUCK 2 ROUTE SUMMARY ---")
 print(f"Return time: {return_time.strftime('%I:%M %p')}")
 print(f"Total mileage: {truck2.mileage:.2f} miles")
-
+print(f"--- TRUCK 2 ROUTE SUMMARY ---]")
+print("\n" * 3)
 
 
 
@@ -122,15 +122,15 @@ for pid in truck3_ids:
         truck3.load_package(package)
         loaded_packages3.append(package)
 
-
+print(f"[--- TRUCK 3 ROUTE SUMMARY ---")
 # TRUCK 3: SIMULATE
 return_time = simulate_route(truck3, start_time3)
 
 # TRUCK 3: RESULTS
-print(f"\n--- TRUCK 3 ROUTE SUMMARY ---")
 print(f"Return time: {return_time.strftime('%I:%M %p')}")
 print(f"Total mileage: {truck3.mileage:.2f} miles")
-
+print(f"--- TRUCK 3 ROUTE SUMMARY ---]")
+print("\n" * 3)
 
 
 total_mileage = truck1.mileage + truck2.mileage + truck3.mileage
@@ -172,7 +172,7 @@ def cli_loop():
                 else:
                     print("Truck: N/A")
                 print(f"Status: {package.get_status_at(query_time)}")
-                print("\n" * 3)
+
             except ValueError:
                 print("Invalid input. Please enter a number and time in HH:MM AM/PM format.")
 
