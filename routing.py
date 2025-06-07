@@ -1,7 +1,5 @@
 from collections import defaultdict
-
 from distance_helper import get_distance
-
 from datetime import timedelta
 
 HUB_ADDRESS = "4001 South 700 East"
@@ -43,7 +41,16 @@ def nearest_neighbor_route(addresses, start_location):
 
 
 def simulate_route(truck, start_time):
+    """
+    Simulates the delivery route for a truck using a nearest neighbor strategy.
 
+    Args:
+        truck (Truck): The truck object with a list of packages loaded.
+        start_time (datetime): The starting departure time for the truck.
+
+    Returns:
+        datetime: The truck’s return time after completing its delivery route.
+    """
     # 1. Initialize truck state
     truck.time = start_time
     truck.current_location = HUB_ADDRESS

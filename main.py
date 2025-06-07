@@ -1,21 +1,18 @@
+# Author: John Mahon
+# Student ID:001193994
+# Title: C950 Task 2
+# Submission 1: 6/6/2025
 
 # For importing Package data from CSV.
 from package_helper import load_package_data
-# For importing distance data from CSV and calculating distances.
-from package import Package
-from distance_helper import get_distance
-
 # HashMap to store and look up packages
 from hashmap import ChainingHashTable
-
 # For handling time.
 from datetime import timedelta, datetime
-
 from routing import simulate_route
 
 # Basic classes.
 from truck import Truck
-from package import Package
 
 current_time = datetime.strptime("08:00 AM", "%I:%M %p")
 
@@ -26,21 +23,18 @@ package_map = ChainingHashTable()
 load_package_data("data/package_data.csv", package_map)
 
 
-# Step 1: Define Truck 3 start time (after 10:20 AM and Truck 1 return)
+# Step 1: Define Truck start times
 start_time1 = datetime.strptime("08:00", "%H:%M").replace(year=2024, month=1, day=1)
 start_time2 = datetime.strptime("09:05", "%H:%M").replace(year=2024, month=1, day=1)
 start_time3 = datetime.strptime("10:20", "%H:%M").replace(year=2024, month=1, day=1)
 
 
-# Step 2: Initialize Truck 3
+# Step 2: Initialize Trucks
 truck1 = Truck(1, start_time1)
 truck2 = Truck(2, start_time2)
 truck3 = Truck(3, start_time3)
 
-# Step 3: Load Truck 3 packages\
-
-
-
+# Step 3: Load Truck packages
 truck1_ids = [1, 13, 14,12, 15, 16,19, 20, 29, 30, 31, 34, 37, 40]
 truck2_ids = [3, 5, 6, 7, 10, 11, 17, 18,25, 21, 28, 32, 36, 38]
 truck3_ids = [2,4, 8, 9, 22, 23, 24, 26, 27, 33, 35, 39]
@@ -50,8 +44,7 @@ loaded_packages2 = []
 loaded_packages3 = []
 
 
-
-# TRUCK 1: LOAD TRUCK
+# TRUCK 1 SIMULATION
 for pid in truck1_ids:
     package = package_map.search(pid)
     if not package:
@@ -70,12 +63,7 @@ print(f"Total mileage: {truck1.mileage:.2f} miles")
 print(f"--- TRUCK 1 ROUTE SUMMARY ---]")
 print("\n" * 3)
 
-
-
-
-
-# TRUCK 2: LOAD TRUCK
-
+# TRUCK 2 SIMULATION
 for pid in truck2_ids:
     package = package_map.search(pid)
 
@@ -88,7 +76,6 @@ for pid in truck2_ids:
         truck2.load_package(package)
         loaded_packages2.append(package)
 
-
 print(f"[--- TRUCK 2 ROUTE SUMMARY ---")
 # TRUCK 2: SIMULATE
 return_time = simulate_route(truck2, start_time2)
@@ -100,16 +87,12 @@ print(f"--- TRUCK 2 ROUTE SUMMARY ---]")
 print("\n" * 3)
 
 
-
 #Fix Package 9's address (corrected at 10:20 AM)
 package_9 = package_map.search(9)
 if package_9:
     package_9.address = "410 S State St"
 else:
     print("⚠️ Package 9 still not found in map!")
-
-
-
 
 
 # TRUCK 3: LOAD TRUCK
@@ -133,12 +116,27 @@ print(f"--- TRUCK 3 ROUTE SUMMARY ---]")
 print("\n" * 3)
 
 
-total_mileage = truck1.mileage + truck2.mileage + truck3.mileage
+print("\n=== DELIVERY SIMULATION COMPLETE ===\n")
 
-print(f"⚠️ TOTAL MILEAGE = {total_mileage} ")
+print(f"Truck 1 mileage: {truck1.mileage:.2f} miles")
+print(f"Truck 2 mileage: {truck2.mileage:.2f} miles")
+print(f"Truck 3 mileage: {truck3.mileage:.2f} miles")
+print("-" * 35)
+
+total_mileage = truck1.mileage + truck2.mileage + truck3.mileage
+print(f"TOTAL MILEAGE DRIVEN: {total_mileage:.2f} miles\n")
 
 
 def cli_loop():
+    """
+    Runs the Command-Line Interface (CLI) loop for user interaction.
+
+    Allows the user to:
+    1. Look up a single package by ID at a specific time.
+    2. View all package statuses at a specific time.
+    3. Display total mileage traveled by all trucks.
+    4. Exit the program.
+    """
     while True:
         print("\n--- WGUPS Delivery CLI ---")
         print("1. Look up a single package at a specific time")
@@ -150,6 +148,7 @@ def cli_loop():
         print("\n" * 3)
 
         if choice == "1":
+            # Look up a single package at a specific time
             try:
                 pkg_id = int(input("Enter Package ID (1–40): "))
                 time_str = input("Enter time to query (e.g., 08:35 AM): ")
@@ -177,6 +176,7 @@ def cli_loop():
                 print("Invalid input. Please enter a number and time in HH:MM AM/PM format.")
 
         elif choice == "2":
+            # View status of all packages at a given time
             try:
                 time_str = input("Enter time to query all packages (e.g., 09:30 AM): ")
                 query_time = datetime.strptime(time_str, "%I:%M %p").replace(year=2024, month=1, day=1)
@@ -191,6 +191,7 @@ def cli_loop():
                 print("Invalid time format. Use HH:MM AM/PM.")
 
         elif choice == "3":
+            # Display mileage for each truck and total mileage
             total_mileage = truck1.mileage + truck2.mileage + truck3.mileage
             print("\n===== TRUCK MILEAGE REPORT =====")
             print(f"Truck 1 mileage: {truck1.mileage:.2f} miles")
@@ -202,10 +203,12 @@ def cli_loop():
 
 
         elif choice == "4":
+            # Exit the CLI loop
             print("Goodbye.")
             break
 
         else:
+            # Handle invalid menu selection
             print("Invalid selection. Please choose 1, 2, 3, or 4.")
 
 cli_loop()
