@@ -70,6 +70,7 @@ class Truck:
             print("Truck is at max capacity.")
 
 
+
     def deliver_package(self, package,distance):
         """
         Delivers a package by updating the truck’s location, mileage, and
