@@ -15,4 +15,9 @@ Instructions:
    - Ensure the /data folder is in the same directory for CSV loading.
 
 Note:
-All routing logic, mileage tracking, package status handling, delayed packages, and address updates are handled dynamically in code.folder.
+All package status logic, routing behavior, and mileage tracking are handled in code.
+Any address changes or package delays are accounted for per scenario requirements.
+
+GitHub Repository (for reference):
+https://github.com/jmaho24/JM_C950
+(This repository contains the same code submitted above and is currently public for evaluator access.)
