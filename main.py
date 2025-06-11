@@ -3,14 +3,14 @@
 # Title: C950 Task 2
 # Submission 1: 6/6/2025
 
-# For importing Package data from CSV.
-from package_helper import load_package_data
+# For handling time.
+from datetime import datetime
+
 # HashMap to store and look up packages
 from hashmap import ChainingHashTable
-# For handling time.
-from datetime import timedelta, datetime
+# For importing Package data from CSV.
+from package_helper import load_package_data
 from routing import simulate_route
-
 # Basic classes.
 from truck import Truck
 
@@ -185,7 +185,14 @@ def cli_loop():
                 for pkg_id in range(1, 41):
                     package = package_map.search(pkg_id)
                     status = package.get_status_at(query_time)
-                    print(f"Package {pkg_id}: {status}")
+                    print(f"\n--- PACKAGE {pkg_id} ---")
+                    print(f"Address: {package.get_address_at(query_time)}")
+                    print(f"Deadline: {package.deadline}")
+                    print(f"Status: {package.get_status_at(query_time)}")
+                    if package.departure_time and query_time >= package.departure_time:
+                        print(f"Truck: {package.truck}")
+                    else:
+                        print("Truck: N/A")
 
             except ValueError:
                 print("Invalid time format. Use HH:MM AM/PM.")
